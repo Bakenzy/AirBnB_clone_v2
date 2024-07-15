@@ -1,4 +1,5 @@
-s file uses fabric to generate a .tgz archive
+#!/usr/bin/python3
+"""This file uses fabric to generate a .tgz archive
 from the contents of AirBnB_Clone using do_pack"""
 from fabric.api import put, run, env, local
 import datetime
@@ -6,7 +7,7 @@ import os
 from fabric.decorators import runs_once
 
 
-env.hosts = ['100.25.17.233', '3.84.238.62']
+env.hosts = ['3.84.238.62', '100.25.17.233']
 
 
 @runs_once
@@ -53,31 +54,3 @@ def deploy():
         return False
     val = do_deploy(name)
     return val
-
-
-@runs_once
-def clean_versions(list_):
-    """This function delets contents from the versions folder"""
-    [os.remove("versions/{}".format(fil)) for fil in list_]
-    return list_
-
-
-def do_clean(number=0):
-    """This leaves only the most recent versions"""
-    number = int(number)
-    if not os.path.isdir('versions'):
-        return
-    x = os.listdir('versions')
-    y = [int(m.strip("web_static_.tgz")) for m in x]
-    if number == 0:
-        y.remove(max(y))
-    else:
-        for num in range(number):
-            if y == []:
-                return
-            y.remove(max(y))
-    to_delete = [val for val in x if int(val.strip("web_static_.tgz")) in y]
-    final = clean_versions(to_delete)
-    for val in final:
-        dir_name = val.strip(".tgz")
-        run("sudo rm -r /data/web_static/releases/{}".format(dir_name))

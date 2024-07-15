@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""This file uses fabric to generate a .tgz archive from the contents of AirBnB_Clone using do_pack"""
+"""This file uses fabric to generate a .tgz archive
+from the contents of AirBnB_Clone using do_pack"""
 from fabric.api import put, run, env, local
 import datetime
 import os
